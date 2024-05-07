@@ -5,14 +5,52 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+# from selenium.webdriver.chrome.options import Options
 
-# Configuration
+# Retrieve BrowserStack credentials from environment variables
+bs_username = os.environ.get("BROWSERSTACK_USERNAME")
+access_key = os.environ.get("BROWSERSTACK_ACCESS_KEY")
+
+if not bs_username or not access_key:
+    raise ValueError("BrowserStack credentials not set in environment")
+
+# Define capabilities including BrowserStack-specific options
+
+capabilities = {
+    "bstack:options": {
+        "os": "Windows",
+        "osVersion": "10",
+        "local": "false",
+        "seleniumVersion": "4.0.0",
+        "userName": bs_username,
+        "accessKey": access_key
+    },
+    "browserName": "Chrome",
+    "browserVersion": "latest"
+}
+
+# Initialize the WebDriver with BrowserStack-specific capabilities
+options = Options()
+for key, value in capabilities.items():
+    options.set_capability(key, value)
+
+driver = webdriver.Remote(
+    command_executor='https://hub-cloud.browserstack.com/wd/hub',
+    options=options
+)
+
+# # Configuration
 browserstack_url = "https://www.browserstack.com"
-username = os.getenv('BS_CREDS_USR')  # Replace with your actual username
-password = os.getenv('BS_CREDS_PSW')  # Replace with your actual password
+username = 'russelviola@gmail.com'  # Replace with your actual username
+password = 'D0gchaseK9!'  # Replace with your actual password
+
+
+# username = os.getenv('BS_CREDS_USR')  # Replace with your actual username
+# password = os.getenv('BS_CREDS_PSW')  # Replace with your actual password
 
 # Setup WebDriver
-driver = webdriver.Chrome()  # Replace with your browser's driver if not using Chrome
+# driver = webdriver.Chrome()  # Replace with your browser's driver if not using Chrome
+
 driver.get(browserstack_url)
 
 try:
