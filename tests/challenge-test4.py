@@ -7,8 +7,8 @@ from selenium.webdriver.support import expected_conditions as EC
 
 # Configuration
 browserstack_url = "https://www.browserstack.com"
-username = os.getenv('BSTACK_TRIAL_USERNAME')  # Replace with your actual username
-password = os.getenv('BSTACK_TRIAL_PASSWORD')  # Replace with your actual password
+username = os.getenv('BS_CREDS_USR')  # Replace with your actual username
+password = os.getenv('BS_CREDS_PSW')  # Replace with your actual password
 
 # Setup WebDriver
 driver = webdriver.Chrome()  # Replace with your browser's driver if not using Chrome
